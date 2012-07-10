@@ -13,7 +13,36 @@ To get the most out of the examples, you may want to follow along with the works
 
 ## Grinder 101
 
-*TODO: Kjetil*
+Okay, you get it already, performance testing is important.
+But why should you use Grinder in particular?
+Lets have a closer look!
+
+Grinder is a load testing framework written in Java.
+It is free, open under a BSD-stype open-source licence, and supports large scale testing using distributed load injector machinces.
+
+The main selling point of Grinder, however, is that it is lightweight and easy to use.
+With Grinder there are no licences to buy or large environments to set up.
+...
+
+The reason you, as a developer, will prefer Grinder is that you create your tests in code, not some GUI.
+(Conversely, if you happen to not be a developer, then Grinder might not be the tool for you. But you still need to understand why your developers should use Grinder!)
+Although Grinder itself is written in Java, Jython or Closure are used for scripting tests.
+
+Why Grinder? ... compared to LoadRunner, JMeter, etc.
+
+- Written in Java, but using Jython and Clojure for test scripting.
+- Tests written i code, not created in a GUI
+- Few requirements - all you need is Java
+
+(if you don't like scripting, Grinder is probably not the best tool for you...)
+
+The Grinder framework is comprised of three types of processes (or programs):
+
+1. *Worker processes*: Interprets test scripts and performs the tests using a number of parallel *worker threads*.
+1. *Agent processes*: Long running process that starts and stops worker processes as required.
+1. *The Console*: Coordinates agent processes, and collates and displays statistics.
+
+![Overview of the Grinder framework](./images/grinder-overview.png)
 
 ## Bootstrapping the Framework
 
