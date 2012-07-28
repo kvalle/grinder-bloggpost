@@ -11,7 +11,7 @@ To get the most out of the examples, you may want to follow along with the works
 
 *TODO: Espen*
 
-## Grinder 101
+## Why Grinder?
 
 Okay, you get it already, performance testing is important.
 But why should you use Grinder in particular?
@@ -19,22 +19,17 @@ Lets have a closer look!
 
 Grinder is a load testing framework written in Java.
 It is free, open under a BSD-stype open-source licence, and supports large scale testing using distributed load injector machinces.
-
 The main selling point of Grinder, however, is that it is lightweight and easy to use.
 With Grinder there are no licences to buy or large environments to set up.
-...
+You just write a simple test script and fire up the grinder.jar file.
 
 The reason you, as a developer, will prefer Grinder is that you create your tests in code, not some GUI.
-(Conversely, if you happen to not be a developer, then Grinder might not be the tool for you. But you still need to understand why your developers should use Grinder!)
-Although Grinder itself is written in Java, Jython or Closure are used for scripting tests.
+Although Grinder itself is written in Java, the test scripts are written in Jython or Closure, which means you can utilize the expressiveness of a dynamic or functional language while still tapping into the resources of Java and the JVM.
+(Of course, should you be so unfortunate not to be a developer, then Grinder might not be the tool for you. But you still need to understand why your developers want and should use Grinder!)
 
-Why Grinder? ... compared to LoadRunner, JMeter, etc.
+So, lets have a closer look on the nuts and bolts of Grinder.
 
-- Written in Java, but using Jython and Clojure for test scripting.
-- Tests written i code, not created in a GUI
-- Few requirements - all you need is Java
-
-(if you don't like scripting, Grinder is probably not the best tool for you...)
+## Grinder 101
 
 The Grinder framework is comprised of three types of processes (or programs):
 
@@ -43,6 +38,76 @@ The Grinder framework is comprised of three types of processes (or programs):
 1. *The Console*: Coordinates agent processes, and collates and displays statistics.
 
 ![Overview of the Grinder framework](./images/grinder-overview.png)
+
+In this tutorial we'll keep things simple, and focus on the worker and agent precesses.
+We will start an agent process manually, providing it with a test script and configuration, leaving the console and distributed testing out for now.
+
+The test script is simply file with Python (or Clojure) code.
+Grinder expects to find a class called `TestRunner`, and implementations of two methods: `__init__` and `__call__`.
+The init-method is called by Grinder initially to set up the test, and call-method is then called repeatedly for each iteration of the testing.
+
+Lets see a simple "hello world" example.
+
+    from net.grinder.script.Grinder import grinder
+    from net.grinder.script import Test
+
+    # defining a simple "hello world" function, in order to have something to test
+    def hello_world():
+        thread = grinder.getThreadNumber()
+        print '> worker thread %d: hello world!' % thread
+
+    class TestRunner:
+        
+        def __init__(self):
+            # creating a Grinder test object
+            test = Test(1, "saying hello")
+            # creating a proxy, by wrapping the hello world function with our Test-object
+            self.wrapped_hello = test.wrap(hello_world)
+
+        def __call__(self):
+            # calling "hello world" through the wrapped function
+            self.wrapped_hello() 
+
+The important part to note in the above code is the `Test` object.
+This object represents a basic operation of testing with Grinder.
+We wrap our `hello_world` function with the test object, which tells Grinder to start timing and recording it.
+Notice also that we are calling Grinder's wrapped version, not the function itself.
+
+Next we need a test configuration.
+
+    grinder.script = hello.py
+
+    grinder.processes = 1
+    grinder.threads = 4
+    grinder.runs = 5
+
+    grinder.useConsole = false
+    grinder.logDirectory = log
+
+Here we first tells Grinder which test script to run.
+Then we specify that we only want one worker process started, and that the worker process should initiate four threads, each making five calls to our `__call__` method.
+The final two lines tell Grinder not to expect us to use the console (thus avoiding some output warnings) and where to put the log files describing the test results.
+
+Now we are ready to run the test.
+Start Grinder using the following command:
+
+    java -cp lib/grinder.jar net.grinder.Grinder hello.properties
+
+Or, more conveniently by using the [startAgent script](https://github.com/kvalle/grinder-workshop):
+
+    ./startAgent.sh hello.properties
+
+This should result in the printing of "hello world" a number of times and produce some files in the `log` directory.
+The `data_xyz.log` file contains a detailed summary of the test events, while the `out_xyz.log` file provides a summary of the results.
+
+             Tests    Errors   Mean Test    Test Time    TPS
+                               Time (ms)    Standard
+                                            Deviation
+                                            (ms)
+
+    Test 1   20       0        0.90         3.05         625.00    "saying hello"
+
+    Totals   20       0        0.90         3.05         625.00
 
 ## Bootstrapping the Framework
 
