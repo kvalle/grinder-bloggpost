@@ -289,6 +289,92 @@ The *errors* column reports that everything went OK although, as we can see, the
 
 In this example, we'll look at how to inspect the HTTP responses, and tell Grinder to fail a test if we find anything fishy.
 
+Again we start with the test configuration:
+
+    grinder.script = scripts/task3.py
+    
+    grinder.runs = 10
+    grinder.useConsole = false
+    grinder.logDirectory = log
+    
+    task3.urls = solutions/scripts/urls.txt
+
+Not much is changed here, so lets move on to the test script.
+
+```python
+from net.grinder.script.Grinder import grinder
+from net.grinder.script import Test
+from net.grinder.plugin.http import HTTPRequest
+
+url_file_path = grinder.getProperties().getProperty('task3.urls')
+
+class TestRunner:
+    
+    def __init__(self):
+        url_file = open(url_file_path)
+        self.tests = []
+        for num, url in enumerate(url_file):
+            url = url.strip()
+            test = Test(num, url)
+            request = test.wrap(HTTPRequest())
+            self.tests.append((request, url))
+        url_file.close()
+        grinder.statistics.setDelayReports(True)
+    
+    def __call__(self):
+        for request, url in self.tests:
+            response = request.GET(url)
+            if not self.is_valid(response):
+                self.fail()
+            grinder.statistics.report()
+
+    def fail(self):
+        grinder.statistics.getForLastTest().setSuccess(False)
+            
+    def is_valid(self, response):
+        if len(response.getData()) < 10: return False
+        if response.getStatusCode() != 200: return False
+        if "epic fail" in response.getText(): return False
+        else: return True
+```
+
+There are a few differences here, comprared to the last example.
+Most obviously there are two new methods, but we also do some new things in the old ones.
+
+First off, we need to tell Grinder not to automatically assume everything is okay as long as the code executes and the `GET` method returns.
+We do this with the call to `grinder.statistics.setDelayReports(True)` at the end of the `__init__` method.
+
+Next, the `__call__` method has been extended to capture the HTTP response object.
+We validate the response using our new `is_valid` method, and tell Grinder to `fail` the test if validation fails.
+Lastly, `grinder.statistics.report()` makes Grinder record the result of the test and move on.
+
+The new `is_valid` method is where most of the magic happens.
+Here we can look at any aspect of the response we might like, and simply return `False` if we are not satisfied.
+
+(It would of course also be possible to make different validation checks for different URLs.
+We won't go into how to do that here, but you might have a look at [this example][task-3-extras] to see how it could be done.)
+
+By running the script we get these new results:
+
+                 Tests        Errors       Mean Test    Test Time    TPS          Mean         Response     Response     Mean time to Mean time to Mean time to 
+                                           Time (ms)    Standard                  response     bytes per    errors       resolve host establish    first byte   
+                                                        Deviation                 length       second                                 connection                
+                                                        (ms)                                                                                                    
+
+    Test 0       10           0            434.00       63.22        1.14         483.00       551.24       0            13.50        43.40        430.90        "http://example.com/"
+    Test 1       10           0            48.00        5.59         1.14         163.00       186.03       0            13.50        43.40        46.80         "http://example.com/foo.php"
+    Test 2       10           0            148.60       89.52        1.14         18433.00     21037.43     0            13.50        43.40        80.60         "http://example.com/bar.php"
+    Test 3       10           0            63.50        23.10        1.14         616.00       703.04       0            13.50        43.40        62.30         "http://example.com/baz.php"
+    Test 4       6            4            39.33        7.99         0.68         103.00       70.53        0            22.50        50.50        38.67         "http://example.com/unreliable-link.php"
+    Test 5       0            10           �            0.00         0.00         �            0.00         0            �            �            �             "http://example.com/bad-link.php"
+    Test 6       0            10           �            0.00         0.00         �            0.00         0            �            �            �             "http://example.com/404.php"
+
+    Totals       46           24           156.02       160.39       0.75         4294.96      3221.18      0            14.67        44.33        139.96       
+
+And indeed, the bad responses actually show up under *errors* this time.
+
+
+[task-3-extras]: https://github.com/kvalle/grinder-workshop/blob/master/solutions/scripts/task3-extras.py
 
 
 Example 4 - Testing of a typical JSON-API (REST API)
