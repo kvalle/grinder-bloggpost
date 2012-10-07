@@ -1,4 +1,5 @@
-# Getting Started With The Grinder
+Getting Started With The Grinder
+================================
 
 Performance testing is important. 
 In this blog post we will explain why, introduce you to a tool for testing performance called The Grinder, and take you through five examples which will get you started using Grinder for testing your web application.
@@ -6,11 +7,15 @@ In this blog post we will explain why, introduce you to a tool for testing perfo
 The post is based on workshops held at [ROOTS](http://www.rootsconf.no/talks/42) and [FreeTest](http://free-test.org/node/81#2012051009-EspenHalvorsen), and the materials -- slides, tasks and code -- are of course [available on GitHub](https://github.com/kvalle/grinder-workshop).
 To get the most out of the examples, you may want to follow along with the materials trying each task on your own, before reading the solutions we present here.
 
-## So, Why Should I Test Performance?
+
+So, Why Should I Test Performance?
+----------------------------------
 
 *TODO: Espen*
 
-## Why Grinder?
+
+Why Grinder?
+------------
 
 Okay, you get it already, performance testing is important!
 But why should you use Grinder in particular?
@@ -29,7 +34,9 @@ Although Grinder itself is written in Java, the test scripts are written in Jyth
 
 So, lets have a closer look on the nuts and bolts of Grinder.
 
-## Grinder 101
+
+Grinder 101
+-----------
 
 The Grinder framework is comprised of three types of processes (or programs):
 
@@ -115,13 +122,17 @@ The `data_xyz.log` file contains a detailed summary of the test events, while th
 
     Totals   20       0        0.90         3.05         625.00
 
-## Bootstrapping the Framework
+
+Bootstrapping the Framework
+---------------------------
 
 *TODO: explain how to download the code from the workshop, and use it to follow along with the examples*
 
-## Example 1 - Testing GET Response Time
 
-In the first example, we will start simle by writing a test for GETing a single URL and measuring the response time.
+Example 1 - Testing GET Response Time
+-------------------------------------
+
+In the first example, we will start easy by writing a test which makes a HTTP GET request for a single URL, and measure the response time.
 
 First, we need some setup.
 Like in the grinder 101 example, we start with a simple configuration file in `1.properties`.
@@ -174,23 +185,89 @@ If you are following along with the [workshop materials](https://github.com/kval
 
 This should generate a few files in the `log` directory specified in the test configuration, where the results of the test are recorded.
 
-## Example 2 - Testing multiple URLs
+
+Example 2 - Testing multiple URLs
+---------------------------------
+
+Testing the response time of a single URL isn' really very useful, so the next step is naturally to time the requests of a bunch of different URLs.
+
+In this example we'll read a list of URLs from a file, create a test for each one, and "GET" it each time the script is run.
+
+The configuration in `2.properties` is very similar to the previous example.
+
+    grinder.script = scripts/task2-extras.py
+
+    grinder.runs = 10
+    grinder.useConsole = false
+    grinder.logDirectory = log
+
+    task2.urls = solutions/scripts/urls.txt
+
+We reference, of course, a new script file and also add one additional parameter.
+The new parameter `task2.urls` is a custom parameter which holds the path to our text file with the URLs, since this is something we really don't want to hard code into the script.
+
+Next we implement the script as follows.
+
+```python
+from net.grinder.script.Grinder import grinder
+from net.grinder.script import Test
+from net.grinder.plugin.http import HTTPRequest
+
+url_file_path = grinder.getProperties().getProperty('task2.urls')
+
+class TestRunner:
+    
+    def __init__(self):
+        url_file = open(url_file_path)
+        self.tests = []
+        for num, url in enumerate(url_file):
+            url = url.strip()
+            test = Test(num, url)
+            request = test.wrap(HTTPRequest())
+            self.tests.append((request, url))
+        url_file.close()
+    
+    def __call__(self):
+        for request, url in self.tests:
+            request.GET(url)
+```
+
+Notice first how we extract custom property value as the file path in the start of the script.
+The rest of the script is familiar, but with some additional logic in the `__init__` and `__call__` methods.
+The code should hopefully be pretty self explanatory, but lets walk through it.
+
+
+
+<!--
+Write a script that reads urls.txt, and then GETs each one in turn. Make sure you use different Test objects for each URL, to make Grinder record their response times individually.
+Objectives:
+
+    Read the URLs from file.
+    Create a Test for each URL. (Remember to wrap a HTTPRequest, like in task 1.)
+    GET all the URLs every time the test script is run.
+-->
+
+
+Example 3 - Validating the responses
+------------------------------------
 
 *TODO: Kjetil*
 
-## Example 3 - Validating the responses
 
-*TODO: Kjetil*
-
-## Example 4 - Testing of a typical JSON-API (REST API)
+Example 4 - Testing of a typical JSON-API (REST API)
+----------------------------------------------------
 
 *TODO: Espen*
 
-## Example 5 - Using Grinder's TCPProxy to automatically generate tests
+
+Example 5 - Using Grinder's TCPProxy to automatically generate tests
+--------------------------------------------------------------------
 
 *TODO: Espen*
 
-## Summary
+
+Summary
+-------
 
 *TODO: something to wrap everything up nicely*
 
