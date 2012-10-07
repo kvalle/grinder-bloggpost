@@ -392,8 +392,13 @@ Example 5 - Using Grinder's TCPProxy to automatically generate tests
 Summary
 -------
 
-*TODO: something to wrap everything up nicely*
+We have prestented The Grinder, as a simple tool for doing performance testing.
+While there are many tools out there for testing performance, the strength of Grinder is that it is lightweight and easy to use.
+We basically only needed two files and a single command to get going!
+
+After taking you though five gradually more complex examples, we have hopefully given you some insight into how Grinder works and what it can be used for.
+Now you should be ready to write some scripts of your own, and start testing *your* application!
 
 ---
 
-Espen Herseth Halvorsen / Kjetil Valle
+[Espen Herseth Halvorsen](espen.herseth.halvorsen@bekk.no) / [Kjetil Valle](kjetil.valle@bekk.no)
