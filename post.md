@@ -44,7 +44,7 @@ The Grinder framework is comprised of three types of processes (or programs):
 1. *Agent processes*: Long running process that starts and stops worker processes as required.
 1. *The Console*: Coordinates agent processes, and collates and displays statistics.
 
-![Overview of the Grinder framework](./images/grinder-overview.png)
+![Overview of the Grinder framework](https://raw.github.com/kvalle/grinder-bloggpost/master/images/grinder-overview.png)
 
 In this tutorial we'll keep things simple, and focus on the worker and agent precesses.
 We will start an agent process manually, providing it with a test script and configuration, leaving the console and distributed testing out for now.
