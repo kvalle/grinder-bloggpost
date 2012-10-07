@@ -262,20 +262,20 @@ Run:
 
     ./startAgent.sh tasks/2.properties
 
-Which should give you something like the following log results in the log file:
+Which should give you something like the following included at the end of the log file:
 
                  Tests        Errors       Mean Test    Test Time    TPS          Mean         Response     Response     Mean time to Mean time to Mean time to 
                                            Time (ms)    Standard                  response     bytes per    errors       resolve host establish    first byte   
                                                         Deviation                 length       second                                 connection                
                                                         (ms)                                                                                                    
 
-    Test 0       10           0            453.70       105.15       1.09         483.00       528.16       0            15.20        51.40        451.00        "http://grinder.espenhh.com/dummy-site/"
-    Test 1       10           0            59.80        19.55        1.09         163.00       178.24       0            15.20        51.40        58.90         "http://grinder.espenhh.com/dummy-site/foo.php"
-    Test 2       10           0            131.20       21.48        1.09         18433.00     20156.37     0            15.20        51.40        66.80         "http://grinder.espenhh.com/dummy-site/bar.php"
-    Test 3       10           0            59.10        16.08        1.09         616.00       673.59       0            15.20        51.40        57.90         "http://grinder.espenhh.com/dummy-site/baz.php"
-    Test 4       10           0            57.60        25.24        1.09         71.00        77.64        4            15.20        51.40        56.60         "http://grinder.espenhh.com/dummy-site/unreliable-link.php"
-    Test 5       10           0            75.00        26.10        1.09         0.00         0.00         0            15.20        53.70        73.30         "http://grinder.espenhh.com/dummy-site/bad-link.php"
-    Test 6       10           0            75.00        69.34        1.09         169.00       184.80       10           15.20        53.70        74.10         "http://grinder.espenhh.com/dummy-site/404.php"
+    Test 0       10           0            453.70       105.15       1.09         483.00       528.16       0            15.20        51.40        451.00        "http://example.com/"
+    Test 1       10           0            59.80        19.55        1.09         163.00       178.24       0            15.20        51.40        58.90         "http://example.com/foo.php"
+    Test 2       10           0            131.20       21.48        1.09         18433.00     20156.37     0            15.20        51.40        66.80         "http://example.com/bar.php"
+    Test 3       10           0            59.10        16.08        1.09         616.00       673.59       0            15.20        51.40        57.90         "http://example.com/baz.php"
+    Test 4       10           0            57.60        25.24        1.09         71.00        77.64        4            15.20        51.40        56.60         "http://example.com/unreliable-link.php"
+    Test 5       10           0            75.00        26.10        1.09         0.00         0.00         0            15.20        53.70        73.30         "http://example.com/bad-link.php"
+    Test 6       10           0            75.00        69.34        1.09         169.00       184.80       10           15.20        53.70        74.10         "http://example.com/404.php"
 
     Totals       70           0            130.20       143.58       1.09         2847.86      3114.11      14           15.20        52.06        119.80       
 
@@ -284,7 +284,11 @@ Which should give you something like the following log results in the log file:
 Example 3 - Validating the responses
 ------------------------------------
 
-*TODO: Kjetil*
+If you looked carefully at the results from the previous example, you might have discovered a problem with the test scripts we have written so far.
+The *errors* column reports that everything went OK although, as we can see, there where several errors in the *response errors* column!
+
+In this example, we'll look at how to inspect the HTTP responses, and tell Grinder to fail a test if we find anything fishy.
+
 
 
 Example 4 - Testing of a typical JSON-API (REST API)
