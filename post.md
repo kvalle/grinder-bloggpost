@@ -135,8 +135,10 @@ Example 1 - Testing GET Response Time
 In the first example, we will start easy by writing a test which makes a HTTP GET request for a single URL, and measure the response time.
 
 First, we need some setup.
-Like in the grinder 101 example, we start with a simple configuration file in `1.properties`.
+Like in the "hello world" example, we start with a simple configuration file in `1.properties`.
 
+    grinder.script = scripts/task1.py
+    
     grinder.processes = 1
     grinder.threads = 1
     grinder.runs = 10
@@ -144,33 +146,32 @@ Like in the grinder 101 example, we start with a simple configuration file in `1
     grinder.useConsole = false
     grinder.logDirectory = log
 
-    grinder.script = scripts/task1.py
-
-The first group of properties specifies how much load the test will utilize.
+There's not much new here.
+Again, the first property informs Grinder which test script to run.
+The second group of properties specifies how much load the test will utilize.
 The defaults for all three properties are 1. 
 Our setup will run the test 10 times sequentially in a single thread.
-The two next settings tells Grinder not to attempt connecting with the console and to store all log files in the `log` directory.
-Finally, the last property informs Grinder about which test script to run.
+The last properties are identical to the previous example.
 
-We'll need to write this test script next.
+Next we'll need to write the test script we just referenced.
 Our `scripts/task1.py` should look something like this:
 
-    from net.grinder.script.Grinder import grinder
-    from net.grinder.script import Test
-    from net.grinder.plugin.http import HTTPRequest
+```python
+from net.grinder.script.Grinder import grinder
+from net.grinder.script import Test
+from net.grinder.plugin.http import HTTPRequest
 
-    class TestRunner:
-        
-        def __init__(self):
-            test = Test(1, "GETing some webpage")
-            self.request = test.wrap(HTTPRequest())
-        
-        def __call__(self):
-            self.request.GET("http://foobar.example.com/page42")
+class TestRunner:
+    
+    def __init__(self):
+        test = Test(1, "GETing some webpage")
+        self.request = test.wrap(HTTPRequest())
+    
+    def __call__(self):
+        self.request.GET("http://foobar.example.com/page42")
+```
 
-We implement two methods: the `__init__` method for setting up the test, and the `__call__` method which is called by Grinder once per test run to be performed.
-
-In the init-method we first crate a `Test` object and then use its `wrap` method to create a proxy object wrapping an instance of `HTTPRequest`.
+In the init-method we start by crating a `Test` object and then use its `wrap` method to create a proxy object wrapping an instance of `HTTPRequest`.
 This proxy is then stored as an instance variable `self.request`, ready for use in the test runs.
 
 The reason we need to use the `Test` to create a proxy is in order for Grinder to be able to track what is happening.
@@ -181,7 +182,8 @@ In this example, the call-method simply invoks the `GET` method on the proxy, wh
 If you are following along with the [workshop materials](https://github.com/kvalle/grinder-workshop), you can now run the test by using the `startAgent` script.
 
     ./startAgent.sh tasks/1.properties
-   
+
+(Or, if you checked out the code but didn't bother to do the tasks, substitute `solutions` for `tasks` and do the same.)
 
 This should generate a few files in the `log` directory specified in the test configuration, where the results of the test are recorded.
 
@@ -191,7 +193,17 @@ Example 2 - Testing multiple URLs
 
 Testing the response time of a single URL isn' really very useful, so the next step is naturally to time the requests of a bunch of different URLs.
 
-In this example we'll read a list of URLs from a file, create a test for each one, and "GET" it each time the script is run.
+Lets say we have a file with URLs that look something like this:
+
+    http://example.com/
+    http://example.com/foo.php
+    http://example.com/bar.php
+    http://example.com/baz.php
+    http://example.com/unreliable-link.php
+    http://example.com/bad-link.php
+    http://example.com/404.php
+
+In this example we'll read this file, create a test for each URL, and "GET" it each time the script is run.
 
 The configuration in `2.properties` is very similar to the previous example.
 
@@ -236,16 +248,37 @@ Notice first how we extract custom property value as the file path in the start 
 The rest of the script is familiar, but with some additional logic in the `__init__` and `__call__` methods.
 The code should hopefully be pretty self explanatory, but lets walk through it.
 
+The first thing we do in the `__init__` method is to open the file with the URLs.
+We then iterate through the file, using `enumerate` to get the line numbers.
+For each line we extract the URL, create a `Test` object, wrap a `HTTPRequest` object using the test object, and append the wrapped request together with the URL to our list of tests.
 
+In `__call__` we simply walk through the list of tests, making a GET request for the URL using the the corresponding wrapped HTTPRequest.
 
-<!--
-Write a script that reads urls.txt, and then GETs each one in turn. Make sure you use different Test objects for each URL, to make Grinder record their response times individually.
-Objectives:
+The important thing to notice in this example is that we don't simply GET all the URLs using a single HTTPRequest.
+We want each URL to be timed separately, and must therefore create a grinder-proxy for each one.
 
-    Read the URLs from file.
-    Create a Test for each URL. (Remember to wrap a HTTPRequest, like in task 1.)
-    GET all the URLs every time the test script is run.
--->
+Now we are ready to try it out.
+Run:
+
+    ./startAgent.sh tasks/2.properties
+
+Which should give you something like the following log results in the log file:
+
+                 Tests        Errors       Mean Test    Test Time    TPS          Mean         Response     Response     Mean time to Mean time to Mean time to 
+                                           Time (ms)    Standard                  response     bytes per    errors       resolve host establish    first byte   
+                                                        Deviation                 length       second                                 connection                
+                                                        (ms)                                                                                                    
+
+    Test 0       10           0            453.70       105.15       1.09         483.00       528.16       0            15.20        51.40        451.00        "http://grinder.espenhh.com/dummy-site/"
+    Test 1       10           0            59.80        19.55        1.09         163.00       178.24       0            15.20        51.40        58.90         "http://grinder.espenhh.com/dummy-site/foo.php"
+    Test 2       10           0            131.20       21.48        1.09         18433.00     20156.37     0            15.20        51.40        66.80         "http://grinder.espenhh.com/dummy-site/bar.php"
+    Test 3       10           0            59.10        16.08        1.09         616.00       673.59       0            15.20        51.40        57.90         "http://grinder.espenhh.com/dummy-site/baz.php"
+    Test 4       10           0            57.60        25.24        1.09         71.00        77.64        4            15.20        51.40        56.60         "http://grinder.espenhh.com/dummy-site/unreliable-link.php"
+    Test 5       10           0            75.00        26.10        1.09         0.00         0.00         0            15.20        53.70        73.30         "http://grinder.espenhh.com/dummy-site/bad-link.php"
+    Test 6       10           0            75.00        69.34        1.09         169.00       184.80       10           15.20        53.70        74.10         "http://grinder.espenhh.com/dummy-site/404.php"
+
+    Totals       70           0            130.20       143.58       1.09         2847.86      3114.11      14           15.20        52.06        119.80       
+
 
 
 Example 3 - Validating the responses
