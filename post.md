@@ -1,5 +1,5 @@
-Getting Started With The Grinder
-================================
+Get Started Performance Testing Using The Grinder
+=================================================
 
 Performance testing is important. 
 In this blog post we will explain why, introduce you to a tool for testing performance called The Grinder, and take you through five examples which will get you started using Grinder for testing your web application.
