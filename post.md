@@ -507,7 +507,19 @@ To get down to action and actually perform some more HTTP requests (that's Grind
 Example 5 - Using Grinder's TCPProxy to automatically generate tests
 --------------------------------------------------------------------
 
-*TODO: Espen*
+Sometimes, you don't want to write all your tests by hand, you just want to simulate a user clicking through some pages in a browser. Grinder has support for this; by using the Grinder TCPProxy you can record a web-browsing-session and replay it using Grinder afterwards. This technique will also generate a script which you can later modify (this is something you almost certainly would want to do!).
+
+Here, we'll let you do the hard lifting yourself. Using the scripts provided in the example GIT project, do the following:
+
+1. Start the proxy server by running the script ./startProxy.sh. This will start a simple console that lets you input comments, and stop the proxy cleanly
+1. Configure your browser to send traffic through the proxy. This most likely means localhost, port 8001 – the output from the first step will tell you if this is correct (read more about configuring the browser here)
+1. Browse to a simple web page (we recommend starting with http://grinder.espenhh.com/simple/ ). If you browse to a complex page, the generated script will be crazy long!
+1. After the page has loaded in the browser, click "stop" in the simple console window
+1. Inspect the generated script: it's located at proxy/proxygeneratedscript.sh
+1. Try running the script: ./startAgent.sh proxy/proxygeneratedscript.sh
+1. Check the log, try modifying the script, experiment. You can start by removing all the sleep statements in the script. Then try it on a more complicated page.
+
+As you'll see, the scripts generated using this method will be ugly as hell, and overly complex. Therefore, we really don't recommend using the Grinder TCPProxy to generate scripts which you plan to be using and maintaining in the future. But for one-time scripts, it can be quite handy. 
 
 
 Summary
