@@ -428,8 +428,81 @@ And indeed, the bad responses actually show up under *errors* this time.
 Example 4 - Testing of a typical JSON-API (REST API)
 ----------------------------------------------------
 
-*TODO: Espen*
+Up until now, we have tested some pretty static pages. Now, it's time to do some more fancy parsing.
 
+We'll be testing against an API which returns JSON-formatted data. This JSON-object will contain links to more stuff you can test against. These links will theoretically change for each request, this means that we'll have to parse the JSON to fetch the links - we can't hard-code all the links in the script beforehand.
+
+When we do a manual call against the webpage: `http://grinder.espenhh.com/json.php`, we get some nicely formatted JSON back:
+
+    {
+       "fetched":"19.04.2012",
+       "tweets":[
+          {
+             "user":"Espenhh",
+             "tweet":"Omg, this grinder workshop is amazing",
+             "profile_image":"http://grinder.espenhh.com/pics/1337.jpg"
+          },
+          {
+             "user":"kvalle",
+             "tweet":"Have you seen my new ROFL-copter? It`s kinda awesome!",
+             "profile_image":"http://grinder.espenhh.com/pics/rofl.gif"
+          },
+          {
+             "user":"Hurtigruta",
+             "tweet":"I`m on a boat! Yeah!",
+             "profile_image":"http://grinder.espenhh.com/pics/123.jpg"
+          }
+       ]
+    }
+
+**The property file** is basically the same now as in the last three examples, the only change is that it points to the correct script.
+
+**The script** is as usual where all the magic happens:
+
+    from net.grinder.script.Grinder import grinder
+    from net.grinder.script import Test
+    from net.grinder.plugin.http import HTTPRequest
+    from org.json import *
+
+    class TestRunner:
+        
+        def __init__(self):
+            test1 = Test(1, "GET some JSON")
+            self.request1 = test1.wrap(HTTPRequest())
+
+            test2 = Test(2, "GET profilepicture")
+            self.request2 = test2.wrap(HTTPRequest())
+        
+        def __call__(self):
+            # Fetches the initial JSON
+            response = self.request1.GET("http://grinder.espenhh.com/json.php")
+            print "JSON: " + response.getText()
+
+            # Parses the JSON (Using a Java library). Then prints the field "fetched"
+            jsonObject = JSONObject(response.text)
+            fetched = jsonObject.getString("fetched")
+            print "FETCHED: " + fetched
+
+            # Gets the single tweets, and loops through them
+            tweetsJsonObject = jsonObject.getJSONArray("tweets")
+            for i in range(0,tweetsJsonObject.length()):
+                singleTweet = tweetsJsonObject.getJSONObject(i)
+
+                # Print out a single tweet
+                userName = singleTweet.getString("user")
+                tweet = singleTweet.getString("tweet")
+                print "TWEET: " + userName + ": " + tweet
+
+                # Fetch the URL to the profile picture, and GET it.
+                profilePictureUri = singleTweet.getString("profile_image")
+                print "GET against profile picture uri: " + profilePictureUri
+                self.request2.GET(profilePictureUri)
+
+First, note that we now import the package org.json, which is a normal Java library. Nothing fancy is going on here, we are just taking advantage of the fact that you are freely able to call Java code from your Grinder scripts. To be honest, we would probably prefer to do the JSON parsing using regular Python code, but we are here to learn you all the things about Grinder, so this time a Java-library takes the front seat.
+
+Knowing that, the first part of the script is easy to understand. We just fetch the content of the previously mentioned link, and stores it in a variable. Then we start using the Java-library. `jsonObject = JSONObject(response.text)` parses the raw JSON from the response into a simple object we can use. We then demonstrate a few methods: `jsonObject.getString("fetched")` and `jsonObject.getJSONArray("tweets")`. It's really simple to navigate the JSON-structure doing this.
+
+To get down to action and actually perform some more HTTP requests (that's Grinders' purpose in life, after all), we loop throuh the array of tweets, and gets the links of each tweet-authors profile picture. We then go a new `GET`-request to get this photo. Please note that we here uses the same `Test`-object for all these requests. You might wonder why we don't use a single Test-object for each and every request, because the links are different, and they are therefore different objects. That's something you just have to decide for yourself, but in our opinion, each `Test`-object should really be about a "consept", and not about a single link. Each tweet-profile-photo is different, but they are all "tweet-profile-photos", therefore they share the same `Test`-object. But, as we said, this is something you have to decide for yourself on a case-by-case-basis.
 
 Example 5 - Using Grinder's TCPProxy to automatically generate tests
 --------------------------------------------------------------------
