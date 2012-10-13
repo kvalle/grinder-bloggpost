@@ -16,14 +16,16 @@ Well, the fact that you are reading this post, and haven't fallen asleep already
 There are a few reasons why we think it's important:
 
 **#1: performance is a feature!**
-It really is! Your users will love you, you will earn more money, and unicorns will dance in joy if you focus on performance. Don't belive us? Well, [this guy says the same](http://www.codinghorror.com/blog/2011/06/performance-is-a-feature.html), don't you belive him either? He created StackOverflow and everything! We won't repeat all the examples here, but suffice to say: this stuff matters! Performance really **is** a feature, a damn important one too!
+It really is! Your users will love you, you will earn more money, and unicorns will dance in joy if you focus on performance. Don't belive us? Well, [this guy says the same](http://www.codinghorror.com/blog/2011/06/performance-is-a-feature.html). Don't you belive him either? He created StackOverflow and stuff, so you should! We won't repeat all the examples here, but suffice to say: this stuff matters! Performance really **is** a feature, a damn important one too!
 
 **#2: bad performance can kill you!**
-Literary! Or figuratively, whatever word kids use these days. The daily press really loves a god "<important site> down, users takes to the streets"-story. You definately don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definately want to test performance yourself, and don't leave that task to your users on release-day.
+Literary! Or figuratively, whatever word kids use these days. The daily press really loves a god "*important site* down, users takes to the streets"-story. You definately don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definately want to test performance yourself, and don't leave that task to your users on release-day.
 
 **#3: it's good for your health"**
 [Some guy](http://en.wikipedia.org/wiki/H._James_Harrington) (with lots of gray hairs, that's how you know he's a smart one) once uttered this brilliant quote: 
-    *Measurement is the first step that leads to control and eventually to improvement. If you can't measure something, you can't understand it. If you can't understand it, you can't control it. If you can't control it, you can't improve it.*
+
+    *"Measurement is the first step that leads to control and eventually to improvement. If you can't measure something, you can't understand it. If you can't understand it, you can't control it. If you can't control it, you can't improve it."*
+
 In the end, performance testing really boils down to the basic task of caring about what you do. You unit test your code, sweats over small details in your user interface, and even care about *how* you work (Scrum and Kanban and other japanese stuff). Why shouldn't you take the same pride in your thing's ability to actually serve your users, and don't fall down when everyone and their grandmas come knocking. Well, we think you should!
 
 Enough about that, now that you are properly motivated, we'll put on our "serious-glasses" and start doing some real work:
@@ -140,7 +142,39 @@ The `data_xyz.log` file contains a detailed summary of the test events, while th
 Bootstrapping the Framework
 ---------------------------
 
-*TODO: explain how to download the code from the workshop, and use it to follow along with the examples*
+**TL;DR:** run this command `git clone git://github.com/kvalle/grinder-workshop.git; cd grinder-workshop; ./startAgent.sh example/scenario.properties`
+
+**A bit more detailed:**
+
+What you need to do is:
+
+- Make sure you have [git](http://git-scm.com/download) installed
+- Make sure you have [Java](http://java.com/en/download) installed
+- Check out the repository containing the examples from the workshop
+
+    `git clone git://github.com/kvalle/grinder-workshop.git`
+
+When you are finished with these simple steps, you can check that everything works by running the sample test (which we described in the last section):
+
+    cd grinder-workshop
+    ./startAgent.sh example/scenario.properties
+  
+When you run this example, Grinder will output some information.
+First there will be some information about what happens during the start-up of Grinder, and then some lines of 'hello world' while running the test script.
+This should look something like the following:
+
+    > worker thread 2: hello world!
+    > worker thread 0: hello world!
+    > worker thread 1: hello world!
+    > worker thread 3: hello world!
+    ...
+
+When the test has finished running, you can also check that everything is okay by inspection the results that have been stored in the newly created directory `grinder-workshop/log`.
+It should be two files with names like `out_xyz-0.log` and `data_xyz-0.log` where `xyz` is the name of your computer.
+The `out`-file contains a summary of the test results, and the `data`file contains all the details in a comma-separated format.
+If everything ran smoothly there should *not* be any files with names like `error_xyz-0.log`!
+
+*If you for some weird reason can't install git it is also possible to download [the code as zip file](https://github.com/kvalle/grinder-workshop/zipball/master).*
 
 
 Example 1 - Testing GET Response Time
