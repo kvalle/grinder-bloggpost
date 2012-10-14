@@ -557,4 +557,4 @@ Now you should be ready to write some scripts of your own, and start testing *yo
 
 ---
 
-[Espen Herseth Halvorsen](espen.herseth.halvorsen@bekk.no) / [Kjetil Valle](kjetil.valle@bekk.no)
+[Espen Herseth Halvorsen](mailto:espen.herseth.halvorsen@bekk.no) / [Kjetil Valle](mailto:kjetil.valle@bekk.no)
