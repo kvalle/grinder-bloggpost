@@ -21,14 +21,17 @@ It really is! Your users will love you, you will earn more money, and unicorns w
 **#2: Bad performance can kill you!**
 Literary! Or figuratively, whatever word kids use these days. The daily press really loves a god "*important site* down, users takes to the streets"-story. You definately don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definately want to test performance yourself, and don't leave that task to your users on release-day.
 
-**#3: it's good for your health"**
+**#3: It's good for your health!**
 [Some guy](http://en.wikipedia.org/wiki/H._James_Harrington) (with lots of gray hairs, that's how you know he's a smart one) once uttered this brilliant quote: 
 
-    Measurement is the first step that leads to control and eventually to improvement. 
-    If you can't measure something, you can't understand it. If you can't understand it, you can't control it. 
-    If you can't control it, you can't improve it.
+> Measurement is the first step that leads to control and eventually to improvement. 
+> If you can't measure something, you can't understand it. If you can't understand it, you can't control it. 
+> If you can't control it, you can't improve it.
 
-In the end, performance testing really boils down to the basic task of caring about what you do. You unit test your code, sweat over small details in your user interface, and even care about *how* you work (Scrum, Kanban and all that stuff). Why shouldn't you take the same pride in your thing's ability to actually serve your users, and don't fall down when everyone and their grandmas come knocking. Well, we think you should!
+In the end, performance testing really boils down to the basic task of caring about what you do. 
+You unit test your code, sweat over small details in your user interface, and even care about *how* you work (Scrum, Kanban and all that stuff). 
+Why shouldn't you take the same pride in your product's ability to actually serve your users, and don't fall down when everyone and their grandmas come knocking. 
+Well, we think you should!
 
 Enough about that, now that you are properly motivated, we'll put on our "serious-glasses" and start doing some real work:
 
