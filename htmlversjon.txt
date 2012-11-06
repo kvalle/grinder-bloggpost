@@ -4,7 +4,7 @@ The examples in this post is based on workshops held at <a href="http://www.root
 
 This blog post consists of three parts:
 <ol>
-    <li>A small <strong>moticational speech</strong> to get you pumped and ready to learn the nuts and bolts of performance testing</li>
+    <li>A small <strong>motivational speech</strong> to get you pumped and ready to learn the nuts and bolts of performance testing</li>
     <li>An introduction to the tool <strong>Grinder</strong>, with a small example to show you how it works.</li>
     <li>And last, the big part: <strong>5 real-world examples</strong> that will teach you everything you need to feel comfortable testing your own stuff with Grinder</li>
 </ol>
