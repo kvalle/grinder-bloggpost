@@ -13,7 +13,7 @@ Without further ado, let's get started!
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part1.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Well, the fact that you are reading this post, and haven't fallen asleep already is a good sign – you obvoiusly at least have a gut feeling that performance testing is important. And we totally agree with you.
+Well, the fact that you are reading this post, and haven't fallen asleep already is a good sign – you obvoiously at least have a gut feeling that performance testing is important. And we totally agree with you.
 
 There are a few reasons why we think it's important:
 
@@ -21,10 +21,10 @@ There are a few reasons why we think it's important:
 It really is! Your users will love you, you will earn more money, and unicorns will dance in joy if you focus on performance. Don't belive us? Well, <a href="http://www.codinghorror.com/blog/2011/06/performance-is-a-feature.html">this guy</a> says the same. Don't you belive him either? He created StackOverflow and stuff, so you should! We won't repeat all the examples here, but suffice to say: this stuff matters! Performance really <em>is</em> a feature, a damn important one too!
 
 <strong>#2: Bad performance can kill you!</strong>
-Literary! Or figuratively, whatever word kids use these days. The daily press really loves a god "<em>important site down</em>, users takes to the streets"-story. You definately don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definately want to test performance yourself, and don't leave that task to your users on release-day.
+Literary! Or figuratively, whatever word kids use these days. The daily press really loves a good "<em>important site</em> down, users take to the streets"-story. You definitely don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definitely want to test performance yourself, and don't leave that task to your users on release-day.
 
 <strong>#3: It's good for your health!</strong>
-<a href="http://en.wikipedia.org/wiki/H._James_Harrington">Some guy</a> (with lots of gray hairs, that's how you know he's a smart one) once uttered this brilliant quote: 
+Do you sleep well at night? Or do you constantly worry which server or system is going to go down next? Do you take pride in what you do for a living? <a href="http://en.wikipedia.org/wiki/H._James_Harrington">Some guy</a> (with lots of gray hairs, that's how you know he's a smart one) once uttered this brilliant quote: 
 
 <blockquote>
     Measurement is the first step that leads to control 
@@ -34,22 +34,19 @@ Literary! Or figuratively, whatever word kids use these days. The daily press re
     – If you can't control it, you can't improve it.
 </blockquote>
 
-In the end, performance testing really boils down to the basic task of caring about what you do. 
-You unit test your code, sweat over small details in your user interface, and even care about *how* you work (Scrum, Kanban and all that stuff). 
-
-Why shouldn't you take the same pride in your product's ability to actually serve your users, and don't fall down when everyone and their grandmas come knocking. 
+In the end, performance testing really boils down to the basic task of caring about what you do. You unit test your code, sweat over small details in your user interface, and even care about *how* you work (Scrum, Kanban and all that stuff). Why shouldn't you take the same pride in your product's ability to actually serve your users, and don't fall down when everyone and their grandmas come knocking. 
 
 <i>Well, we think you should!</i>
 
-Enough about that, now that you are properly motivated, we'll put on our "serious-glasses" and start looking at how you can actually <i>performance test</i>!
+Enough about that; now that you are properly motivated, we'll put on our "serious-glasses" and start looking at how you can attach this performance test thing!
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part2.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
 Okay, you get it already, performance testing is important! But why should you use Grinder in particular? And what is Grinder anyway? Lets have a closer look.
 
-Grinder is a load testing framework written in Java. It is free, open source under a BSD-style licence, and supports large scale testing using distributed load injector machinces. The main selling point of Grinder, however, is that it is lightweight and easy to use. With Grinder there are no licences to buy or large environments to set up. You just write a simple test script and fire up the grinder.jar file.
+Grinder is a load testing framework written in Java. It is free, open source under a BSD-style licence, and supports large scale testing using distributed load injector machines. The main selling point of Grinder, however, is that it is lightweight and easy to use. With Grinder there are no licences to buy or large environments to set up. You just write a simple test script and fire up the <code>grinder.jar</code> file.
 
-The reason you, as a developer, will prefer Grinder is that you create your tests in code, not some GUI. Although Grinder itself is written in Java, the test scripts are written in Jython or Closure, which means you can utilize the expressiveness of a dynamic or functional language while still tapping into the resources of Java and the JVM. (Of course, should you be so unfortunate not to be a developer, then Grinder might not be the tool for you. But you still need to understand why your developers want and should use Grinder!)
+The reason you, as a developer, will prefer Grinder is that you create your tests in code, not some quirky GUI. Although Grinder itself is written in Java, the test scripts are written in Jython or Closure, which means you can utilize the expressiveness of a dynamic or functional language while still tapping into the resources of Java and the JVM. (Of course, should you be so unfortunate not to be a developer, then Grinder might not be the tool for you. But you still need to understand why your developers want and should use Grinder!)
 
 So, lets have a closer look on the nuts and bolts of Grinder.
 
@@ -63,7 +60,7 @@ The Grinder framework is comprised of three types of processes (or programs):
 <ol>
     <li><strong>Worker processes</strong>: Interprets test scripts and performs the tests using a number of parallel <em>worker threads</em>.</li>
 
-    <li><strong>Agent processes</strong>: Long running process that starts and stops worker processes as required.</li>
+    <li><strong>Agent processes</strong>: Long running processes that start and stop worker processes as required.</li>
 
     <li><strong>The Console</strong>: Coordinates agent processes, and collates and displays statistics.</li>
 
@@ -74,7 +71,7 @@ The Grinder framework is comprised of three types of processes (or programs):
 
 In this tutorial we'll keep things simple, and focus on the worker and agent precesses. We will start an agent process manually, providing it with a test script and configuration, leaving the console and distributed testing out for now.
 
-The test script is simply a Python (or Clojure) source file. Grinder expects to find a class called <code>TestRunner</code> which should implement two methods: <code>__init__</code> and <code>__call__</code>. The init-method is called by Grinder initially to set up the test, and call-method is then called repeatedly for each iteration of the testing.
+The test script is simply a Python (or Clojure) source file. Grinder expects to find a class called <code>TestRunner</code> which should implement two methods: <code>__init__</code> and <code>__call__</code>. The init-method is called by Grinder initially to set up the test, and the call-method is then called repeatedly for each iteration of the testing.
 
 
 <h4>A Simple Example</h4>
@@ -150,9 +147,9 @@ Totals   20       0        0.90         3.05         625.00
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part3.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Let's get started learning Grinder by looking at <strong>five real-world examples</strong> (or, at least as real-world as some fake examples can be). To help you follow along, you should really try to do the examples yourself as you move along. Or, at least you should check out the example code and try to run the finished solutions yourself.
+Let's get started learning Grinder by looking at <strong>five real-world examples</strong> (or, at least as real-world as fake examples can be). To help you follow along, you should really try to do the examples yourself as you move along. Or, at least you should check out the example code and try to run the finished solutions yourself.
 
-So let's set ut the example code before we move on.
+So lets check out the example code before we move on:
 
 
 <h4>Bootstrapping the Framework</h4>
@@ -168,9 +165,9 @@ git clone git://github.com/kvalle/grinder-workshop.git; cd grinder-workshop; ./s
 What you need to do is:
 
 <ul>
-    <li>Make sure you have [git](http://git-scm.com/download) installed</li>
-    <li>Make sure you have [Java](http://java.com/en/download) installed</li>
-    <li>Check out the repository containing the examples from the workshop</li>
+    <li>Make sure you have <a href="http://git-scm.com/download">git</a> installed</li>
+    <li>Make sure you have <a href="http://java.com/en/download">Java</a> installed</li>
+    <li>Check out the repository containing the examples from the workshop:</li>
 </ul>
 
 <pre lang="bash">
@@ -194,16 +191,16 @@ When you run this example, Grinder will output some information. First there wil
 ...
 </pre>
 
-When the test has finished running, you can also check that everything is okay by inspection the results that have been stored in the newly created directory <code>grinder-workshop/log</code>. It should be two files with names like <code>out_xyz-0.log</code> and <code>data_xyz-0.log</code> where <code>xyz</code> is the name of your computer. The <code>out</code>-file contains a summary of the test results, and the <code>data</code>file contains all the details in a comma-separated format. If everything ran smoothly there should *not* be any files with names like <code>error_xyz-0.log</code>!
+When the test has finished running, you can also check that everything is okay by inspection the results that have been stored in the newly created directory <code>grinder-workshop/log</code>. It should be two files with names like <code>out_xyz-0.log</code> and <code>data_xyz-0.log</code> where <code>xyz</code> is the name of your computer. The <code>out</code>-file contains a summary of the test results, and the <code>data</code>file contains all the details in a comma-separated format. If everything ran smoothly there should <i>not</i> be any files with names like <code>error_xyz-0.log</code>!
 
-<i>If you for some weird reason can't install git it is also possible to download [the code as zip file](https://github.com/kvalle/grinder-workshop/zipball/master).</i>
+<i>If you for some weird reason can't install git it is also possible to download <a href="https://github.com/kvalle/grinder-workshop/zipball/master">the code as zip file</a>.</i>
 
 
 <strong>Now that you have all of the example code, let's start with the examples!</strong>
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/example1.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-In the first example, we will start easy by writing a test which makes a HTTP GET request for a single URL, and measure the response time.
+In the first example, we will start easy by writing a test which makes a HTTP GET request for a single URL, and measures the response time.
 
 First, we need some setup. Like in the "hello world" example, we start with a simple configuration file in <code>1.properties</code>.
 
@@ -243,7 +240,7 @@ The reason we need to use the <code>Test</code> to create a proxy is in order fo
 
 In this example, the call-method simply invoks the <code>GET</code> method on the proxy, which is then passed through to the <code>HTTPRequest</code> instance performing the actual request.
 
-If you are following along with the [workshop materials](https://github.com/kvalle/grinder-workshop), you can now run the test by using the <code>startAgent</code> script.
+If you are following along with the <a href="https://github.com/kvalle/grinder-workshop">workshop materials</a>, you can now run the test by using the <code>startAgent</code> script.
 
 <pre lang="bash">
 ./startAgent.sh tasks/1.properties
@@ -257,7 +254,7 @@ This should generate a few files in the <code>log</code> directory specified in 
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/example2.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Testing the response time of a single URL isn' really very useful, so the next step is naturally to time the requests of a bunch of different URLs.
+Testing the response time of a single URL isn't very useful, so the next step is naturally to time the requests of a bunch of different URLs.
 
 Lets say we have a file with URLs that look something like this:
 
@@ -271,7 +268,7 @@ http://example.com/bad-link.php
 http://example.com/404.php
 </pre>
 
-In this example we'll read this file, create a test for each URL, and "GET" it each time the script is run.
+In this example we'll read this file, create a test for each URL, and "GET" it each time the script runs.
 
 The configuration in <code>2.properties</code> is very similar to the previous example.
 
@@ -447,7 +444,7 @@ And indeed, the bad responses actually show up under <i>errors</i> this time.
 
 Up until now, we have tested some pretty static pages. Now, it's time to do some more fancy parsing.
 
-We'll be testing against an API which returns JSON-formatted data. This JSON-object will contain links to more stuff you can test against. These links will theoretically change for each request, this means that we'll have to parse the JSON to fetch the links - we can't hard-code all the links in the script beforehand.
+We'll be testing against an API which returns JSON-formatted data. This JSON-object will contain links to more stuff you can test against. These links will theoretically change for each request, which means that we'll have to parse the JSON to fetch the links - we can't hard-code all the links in the script beforehand.
 
 When we do a manual call against the webpage: <code>http://grinder.espenhh.com/json.php</code>, we get some nicely formatted JSON back:
 
@@ -523,7 +520,7 @@ First, note that we now import the package <code>org.json</code>, which is a nor
 
 Knowing that, the first part of the script is easy to understand. We just fetch the content of the previously mentioned link, and stores it in a variable. Then we start using the Java-library. <code>jsonObject = JSONObject(response.text)</code> parses the raw JSON from the response into a simple object we can use. We then demonstrate a few methods: <code>jsonObject.getString("fetched")</code> and <code>jsonObject.getJSONArray("tweets")</code>. It's really simple to navigate the JSON-structure doing this.
 
-To get down to action and actually perform some more HTTP requests (that's Grinders' purpose in life, after all), we loop throuh the array of tweets, and gets the links of each tweet-authors profile picture. We then go a new <code>GET</code>-request to get this photo. Please note that we here uses the same <code>Test</code>-object for all these requests. You might wonder why we don't use a single Test-object for each and every request, because the links are different, and they are therefore different objects. That's something you just have to decide for yourself, but in our opinion, each <code>Test</code>-object should really be about a "consept", and not about a single link. Each tweet-profile-photo is different, but they are all "tweet-profile-photos", therefore they share the same <code>Test</code>-object. But, as we said, this is something you have to decide for yourself on a case-by-case-basis.
+To get down to action and actually perform some more HTTP requests (that's Grinders' purpose in life, after all), we loop throuh the array of tweets, and get the links of each tweet-authors profile picture. We then do a new <code>GET</code>-request to get this photo. Please note that we here uses the same <code>Test</code>-object for all these requests. You might wonder why we don't use a new Test-object for each and every request, because the links are different, and they therefore are different objects. That's something you just have to decide for yourself, but in our opinion, each <code>Test</code>-object should really be about a <i>concept</i>, and not about a single link. Each tweet-profile-photo is different, but they are all <i>tweet-profile-photos</i>, therefore they share the same <code>Test</code>-object. But, as we said, this is something you have to decide for yourself on a case-by-case-basis.
 
 Running this script, we get the following output:
 
@@ -539,7 +536,7 @@ Running this script, we get the following output:
     Totals       4            0            186.50       183.85       2.62         2958.00      7753.60      0            381.00       421.00       174.50   
 </pre>
 
-We here see that we are doing one GET-request to get the initial JSON, and then the loop performs three GET-requests to get the profile-pictures. By coding your tests this way (and having a good and RESTful API to test agains, which contains links), you'll be able to write small and simple tests that tests big amounts of functionality with simple code. They'll also be quite robust and won't break if you change your backend in small ways. 
+We here see that we are doing one GET-request to get the initial JSON, and then the loop performs three GET-requests to get the profile-pictures. By coding your tests this way (and having a good and RESTful API to test against, which contains links), you'll be able to write small and simple tests that test large amounts of functionality with simple code. They'll also be quite robust and won't break if you change your backend in small ways. 
 
 
 
@@ -551,12 +548,12 @@ Sometimes, you don't want to write all your tests by hand, you just want to simu
 Here, we'll let you do the hard lifting yourself. Using the scripts provided in the example GIT project, do the following:
 
 <ol>
-    <li>Start the proxy server by running the script ./startProxy.sh. This will start a simple console that lets you input comments, and stop the proxy cleanly</li>
-    <li>Configure your browser to send traffic through the proxy. This most likely means localhost, port 8001 – the output from the first step will tell you if this is correct (read more about configuring the browser here)</li>
+    <li>Start the proxy server by running the script <code>./startProxy.sh</code>. This will start a simple console that lets you input comments, and stop the proxy cleanly.</li>
+    <li>Configure your browser to send traffic through the proxy. This most likely means localhost, port 8001 – the output from the first step will tell you if this is correct.</li>
     <li>Browse to a simple web page (we recommend starting with http://grinder.espenhh.com/simple/ ). If you browse to a complex page, the generated script will be crazy long!</li>
-    <li>After the page has loaded in the browser, click "stop" in the simple console window</li>
-    <li>Inspect the generated script: it's located at proxy/proxygeneratedscript.sh</li>
-    <li>Try running the script: ./startAgent.sh proxy/proxygeneratedscript.sh</li>
+    <li>After the page has loaded in the browser, click "stop" in the simple console window.</li>
+    <li>Inspect the generated script: it's located at <code>proxy/proxygeneratedscript.sh</code>.</li>
+    <li>Try running the script: <code>./startAgent.sh proxy/proxygeneratedscript.sh</code>.</li>
     <li>Check the log, try modifying the script, experiment. You can start by removing all the sleep statements in the script. Then try it on a more complicated page.</li>
 </ol>
 
@@ -566,10 +563,15 @@ As you'll see, the scripts generated using this method will be ugly as hell, and
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part4.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-We have prestented The Grinder, as a simple tool for doing performance testing. While there are many tools out there for testing performance, the strength of Grinder is that it is lightweight and easy to use. We basically only needed two files and a single command to get going!
+That's it, really! Thanks for reading through it all! We hope you have learned some new things.
+
+The gist of it is that we really belive in performance testing, and that in our opinion Grinder is one of the best tools for developers with a need to performance test their applications. While there are many tools out there, the strength of Grinder is that it is lightweight and easy to use. You basically only needed two small text files and a single command to get going!
 
 After taking you though five gradually more complex examples, we have hopefully given you some insight into how Grinder works and what it can be used for. Now you should be ready to write some scripts of your own, and start testing <i>your</i> application!
 
+<strong>Good luck, and have fun!</strong>
+
+<hr>
 
 <i>Thanks to the great photographers at Flicker for their awesome Creative Commons photos: 
     <a href="http://www.flickr.com/photos/vectorportal/5257974179/sizes/o/in/photostream/">[1]</a>, <a href="http://www.flickr.com/photos/horiavarlan/4267398696/sizes/l/in/photostream/">[2]</a>, <a href="http://www.flickr.com/photos/epsos/3524714926/sizes/l/in/photostream/">[3]</a>, <a href="http://www.flickr.com/photos/ttdesign/343167590/sizes/z/in/photostream/">[4]</a>, <a href="http://www.flickr.com/photos/cyberslayer/1870825830/sizes/l/in/photostream/">[5]</a>, <a href="http://www.flickr.com/photos/hippie/2467407294/sizes/l/in/photostream/">[6]</a>
