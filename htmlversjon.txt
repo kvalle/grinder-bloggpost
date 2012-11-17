@@ -4,21 +4,21 @@ The examples in this post is based on workshops held at <a href="http://www.root
 
 This blog post consists of three parts:
 <ol>
-    <li>A small <strong>motivational speech</strong> to get you pumped and ready to learn the nuts and bolts of performance testing</li>
+    <li>A small <strong>motivational speech</strong> to get you pumped and ready to learn the nuts and bolts of performance testing.</li>
     <li>An introduction to the tool <strong>Grinder</strong>, with a small example to show you how it works.</li>
-    <li>And last, the big part: <strong>5 real-world examples</strong> that will teach you everything you need to feel comfortable testing your own stuff with Grinder</li>
+    <li>And last, the big part: <strong>5 real-world examples</strong> that will teach you everything you need to feel comfortable testing your own stuff with Grinder.</li>
 </ol>
 
 Without further ado, let's get started!
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part1.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Well, the fact that you are reading this post, and haven't fallen asleep already is a good sign – you obvoiously at least have a gut feeling that performance testing is important. And we totally agree with you.
+Well, the fact that you are already reading this post is a good sign – you obvoiously have at least a gut feeling that performance testing is important. And we totally agree with you.
 
 There are a few reasons why we think it's important:
 
 <strong>#1: Performance is a feature!</strong>
-It really is! Your users will love you, you will earn more money, and unicorns will dance in joy if you focus on performance. Don't belive us? Well, <a href="http://www.codinghorror.com/blog/2011/06/performance-is-a-feature.html">this guy</a> says the same. Don't you belive him either? He created StackOverflow and stuff, so you should! We won't repeat all the examples here, but suffice to say: this stuff matters! Performance really <em>is</em> a feature, a damn important one too!
+It really is! Your users will love you, you will earn more money, and unicorns will dance in joy if you focus on performance. Don't belive us? Well, <a href="http://www.codinghorror.com/blog/2011/06/performance-is-a-feature.html">this guy</a> says the same. Don't you belive him either? He created StackOverflow and stuff, so you should! We won't repeat all the examples here, but suffice to say: this stuff matters! Performance really <em>is</em> a feature, and a damn important one too!
 
 <strong>#2: Bad performance can kill you!</strong>
 Literary! Or figuratively, whatever word kids use these days. The daily press really loves a good "<em>important site</em> down, users take to the streets"-story. You definitely don't want your site's logo on those demonstation signs! And when you then have to go into rush-mode and try to fix things, bad things can (and according to mr. Murphy, often does) happen. That's when Kenneth36 and all those nasty things happens! So you definitely want to test performance yourself, and don't leave that task to your users on release-day.
@@ -38,11 +38,11 @@ In the end, performance testing really boils down to the basic task of caring ab
 
 <i>Well, we think you should!</i>
 
-Enough about that; now that you are properly motivated, we'll put on our "serious-glasses" and start looking at how you can attach this performance test thing!
+Enough about that. Now that you are properly motivated, we'll put on our "serious-glasses" and start looking at how you can approach this performance test thing!
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part2.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Okay, you get it already, performance testing is important! But why should you use Grinder in particular? And what is Grinder anyway? Lets have a closer look.
+Okay, you get it already, performance testing is important! But why should you use <a href="http://grinder.sourceforge.net/">Grinder</a> in particular? And what is Grinder anyway? Lets have a closer look.
 
 Grinder is a load testing framework written in Java. It is free, open source under a BSD-style licence, and supports large scale testing using distributed load injector machines. The main selling point of Grinder, however, is that it is lightweight and easy to use. With Grinder there are no licences to buy or large environments to set up. You just write a simple test script and fire up the <code>grinder.jar</code> file.
 
@@ -147,7 +147,7 @@ Totals   20       0        0.90         3.05         625.00
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part3.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Let's get started learning Grinder by looking at <strong>five real-world examples</strong> (or, at least as real-world as fake examples can be). To help you follow along, you should really try to do the examples yourself as you move along. Or, at least you should check out the example code and try to run the finished solutions yourself.
+Let's get started learning Grinder by looking at <strong>five real-world examples</strong> (or, at least as real-world as simple explanatory examples can be). To lean as much as possible, you should really try to do the examples yourself as you move along. Or, at least you should check out the example code and try to run the finished solutions.
 
 So lets check out the example code before we move on:
 
@@ -191,7 +191,7 @@ When you run this example, Grinder will output some information. First there wil
 ...
 </pre>
 
-When the test has finished running, you can also check that everything is okay by inspection the results that have been stored in the newly created directory <code>grinder-workshop/log</code>. It should be two files with names like <code>out_xyz-0.log</code> and <code>data_xyz-0.log</code> where <code>xyz</code> is the name of your computer. The <code>out</code>-file contains a summary of the test results, and the <code>data</code>file contains all the details in a comma-separated format. If everything ran smoothly there should <i>not</i> be any files with names like <code>error_xyz-0.log</code>!
+When the test has finished running, you can also check that everything is okay by inspecting the results that have been stored in the newly created directory <code>grinder-workshop/log</code>. There should be two files with names like <code>out_xyz-0.log</code> and <code>data_xyz-0.log</code> where <code>xyz</code> is the name of your computer. The <code>out</code>-file contains a summary of the test results, and the <code>data</code> file contains all the details in a comma-separated format. If everything ran smoothly there should <i>not</i> be any files with names like <code>error_xyz-0.log</code>!
 
 <i>If you for some weird reason can't install git it is also possible to download <a href="https://github.com/kvalle/grinder-workshop/zipball/master">the code as zip file</a>.</i>
 
@@ -215,7 +215,7 @@ grinder.useConsole = false
 grinder.logDirectory = log
 </pre>
 
-There's not much new here.Again, the first property informs Grinder which test script to run. The second group of properties specifies how much load the test will utilize. The defaults for all three properties are 1. Our setup will run the test 10 times sequentially in a single thread. The last properties are identical to the previous example.
+There's not much new here. Again, the first property informs Grinder which test script to run. The second group of properties specifies how much load the test will utilize. The defaults for all three properties are 1. Our setup will run the test 10 times sequentially in a single thread. The last properties are identical to the previous example.
 
 Next we'll need to write the test script we just referenced. Our <code>scripts/task1.py</code> should look something like this:
 
@@ -254,7 +254,7 @@ This should generate a few files in the <code>log</code> directory specified in 
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/example2.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-Testing the response time of a single URL isn't very useful, so the next step is naturally to time the requests of a bunch of different URLs.
+Testing the response time of a single URL isn't very useful, so the next step is naturally to time the requests of a bunch of different URLs. We also don't want to hard code the URLs into the test script, but list them in a separate file.
 
 Lets say we have a file with URLs that look something like this:
 
@@ -273,7 +273,7 @@ In this example we'll read this file, create a test for each URL, and "GET" it e
 The configuration in <code>2.properties</code> is very similar to the previous example.
 
 <pre lang="python" line="1">
-grinder.script = scripts/task2-extras.py
+grinder.script = scripts/task2.py
 
 grinder.runs = 10
 grinder.useConsole = false
@@ -471,9 +471,9 @@ When we do a manual call against the webpage: <code>http://grinder.espenhh.com/j
 }
 </pre>
 
-<strong>The property file</strong> is basically the same now as in the last three examples, the only change is that it points to the correct script.
+The property file is basically the same now as in the last three examples, the only change is that it points to the correct script.
 
-<strong>The script</strong> is as usual where all the magic happens:
+The script is as usual where all the magic happens:
 
 <pre lang="python" line="1">
 from net.grinder.script.Grinder import grinder
@@ -516,11 +516,11 @@ class TestRunner:
             self.request2.GET(profilePictureUri)
 </pre>
 
-First, note that we now import the package <code>org.json</code>, which is a normal Java library. Nothing fancy is going on here, we are just taking advantage of the fact that you are freely able to call Java code from your Grinder scripts. To be honest, we would probably prefer to do the JSON parsing using regular Python code, but we are here to learn you all the things about Grinder, so this time a Java-library takes the front seat.
+First, note that we now import the package <code>org.json</code>, which is a normal Java library. Nothing fancy is going on here, we are just taking advantage of the fact that you are freely able to call Java code from your Grinder scripts. We could just as easily have used a Python module to do the parsing, but this way you'll get some experience working across the language barrier.
 
 Knowing that, the first part of the script is easy to understand. We just fetch the content of the previously mentioned link, and stores it in a variable. Then we start using the Java-library. <code>jsonObject = JSONObject(response.text)</code> parses the raw JSON from the response into a simple object we can use. We then demonstrate a few methods: <code>jsonObject.getString("fetched")</code> and <code>jsonObject.getJSONArray("tweets")</code>. It's really simple to navigate the JSON-structure doing this.
 
-To get down to action and actually perform some more HTTP requests (that's Grinders' purpose in life, after all), we loop throuh the array of tweets, and get the links of each tweet-authors profile picture. We then do a new <code>GET</code>-request to get this photo. Please note that we here uses the same <code>Test</code>-object for all these requests. You might wonder why we don't use a new Test-object for each and every request, because the links are different, and they therefore are different objects. That's something you just have to decide for yourself, but in our opinion, each <code>Test</code>-object should really be about a <i>concept</i>, and not about a single link. Each tweet-profile-photo is different, but they are all <i>tweet-profile-photos</i>, therefore they share the same <code>Test</code>-object. But, as we said, this is something you have to decide for yourself on a case-by-case-basis.
+To get down to action and actually perform some more HTTP requests, we loop throuh the array of tweets, and get the links of each tweet-authors profile picture. We then do a new <code>GET</code>-request to get this photo. Please note that we here uses the same <code>Test</code>-object for all these requests. You might wonder why we don't use a new Test-object for each and every request, because the links are different, and they therefore are different objects. That's something you just have to decide for yourself, but in our opinion, each <code>Test</code>-object should really be about a <i>concept</i>, and not about a single link. Each tweet-profile-photo is different, but they are all <i>tweet-profile-photos</i>, therefore they share the same <code>Test</code>-object. But, you'll need to decide what exactly you want to test on a case-to-case-basis.
 
 Running this script, we get the following output:
 
@@ -545,15 +545,15 @@ We here see that we are doing one GET-request to get the initial JSON, and then 
 
 Sometimes, you don't want to write all your tests by hand, you just want to simulate a user clicking through some pages in a browser. Grinder has support for this; by using the Grinder TCPProxy you can record a web-browsing-session and replay it using Grinder afterwards. This technique will also generate a script which you can later modify (this is something you almost certainly would want to do!).
 
-Here, we'll let you do the hard lifting yourself. Using the scripts provided in the example GIT project, do the following:
+Here, we'll let you do the hard lifting yourself. Using the scripts provided in the example Git project, do the following:
 
 <ol>
     <li>Start the proxy server by running the script <code>./startProxy.sh</code>. This will start a simple console that lets you input comments, and stop the proxy cleanly.</li>
     <li>Configure your browser to send traffic through the proxy. This most likely means localhost, port 8001 – the output from the first step will tell you if this is correct.</li>
     <li>Browse to a simple web page (we recommend starting with http://grinder.espenhh.com/simple/ ). If you browse to a complex page, the generated script will be crazy long!</li>
     <li>After the page has loaded in the browser, click "stop" in the simple console window.</li>
-    <li>Inspect the generated script: it's located at <code>proxy/proxygeneratedscript.sh</code>.</li>
-    <li>Try running the script: <code>./startAgent.sh proxy/proxygeneratedscript.sh</code>.</li>
+    <li>Inspect the generated script: it's located at <code>proxy/proxygeneratedscript.py</code>.</li>
+    <li>Try running the script: <code>./startAgent.sh proxy/proxygeneratedscript.properties</code>.</li>
     <li>Check the log, try modifying the script, experiment. You can start by removing all the sleep statements in the script. Then try it on a more complicated page.</li>
 </ol>
 
@@ -563,16 +563,18 @@ As you'll see, the scripts generated using this method will be ugly as hell, and
 
 <img src="http://open.bekk.no/wp-content/uploads/2012/11/part4.png" style="width: 100%; margin: 50px 0 20px 0;" />
 
-That's it, really! Thanks for reading through it all! We hope you have learned some new things.
+That's it, really! We hope you have learned something, and feel inspired to start testing your applications.
 
-The gist of it is that we really belive in performance testing, and that in our opinion Grinder is one of the best tools for developers with a need to performance test their applications. While there are many tools out there, the strength of Grinder is that it is lightweight and easy to use. You basically only needed two small text files and a single command to get going!
+The gist of it all is that we belive performance testing is important. We find Grinder to be one of the best tools for developers, mainly because it is lightweight and easy to use. All you need to get started is a couple of small files and the grinder.jar. This makes it easy to do some testing now and again, without making performance testing into a big fuzz. A little bit of testing regularly while a application is under development beats big bang testing after the fact any day.
 
-After taking you though five gradually more complex examples, we have hopefully given you some insight into how Grinder works and what it can be used for. Now you should be ready to write some scripts of your own, and start testing <i>your</i> application!
+One thing we did not focus much on in this blogpost, but that should be noted nonetheless, is the fact that Grinder, and Jython, runs on Java. This means that you don't nessicarily need to wrap HTTPRequests, you could wrap calls to your application directly!
+
+After taking you though these five gradually more complex examples, we have hopefully given you some insight into how Grinder works and what it can be used for. Now you should be ready to write some scripts of your own.
 
 <strong>Good luck, and have fun!</strong>
 
 <hr>
 
-<i>Thanks to the great photographers at Flicker for their awesome Creative Commons photos: 
+<i>Thanks to the great photographers at Flicker for their Creative Commons photos: 
     <a href="http://www.flickr.com/photos/vectorportal/5257974179/sizes/o/in/photostream/">[1]</a>, <a href="http://www.flickr.com/photos/horiavarlan/4267398696/sizes/l/in/photostream/">[2]</a>, <a href="http://www.flickr.com/photos/epsos/3524714926/sizes/l/in/photostream/">[3]</a>, <a href="http://www.flickr.com/photos/ttdesign/343167590/sizes/z/in/photostream/">[4]</a>, <a href="http://www.flickr.com/photos/cyberslayer/1870825830/sizes/l/in/photostream/">[5]</a>, <a href="http://www.flickr.com/photos/hippie/2467407294/sizes/l/in/photostream/">[6]</a>
 </i>
